@@ -1,15 +1,14 @@
 public class MultilayerPerceptrons {
-    int numberOfInputs;
-    int numberOfHiddenLayers;
-    int numberOfHiddenNeurons;
-    int numberOfOutputs;
+    final int numberOfInputs;
+    final int numberOfHiddenNeurons;
+    final int numberOfOutputs;
 
     // Constructor function
-    public MultilayerPerceptrons(int inputs, int hiddenLayers, int hiddenNeurons, int outputs) {
+    public MultilayerPerceptrons(int inputs, int hiddenNeurons, int outputs) {
         numberOfInputs = inputs;
-        numberOfHiddenLayers = hiddenLayers;
         numberOfHiddenNeurons = hiddenNeurons;
         numberOfOutputs = outputs;
+
     }
 
 }

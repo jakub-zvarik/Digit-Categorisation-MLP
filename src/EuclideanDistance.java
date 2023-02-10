@@ -1,13 +1,13 @@
 class EuclideanDistance {
 
-    public int euclideanDistance(int[][] trainingSet, int[][] testSet) {
+    public int euclideanDistance(double[][] trainingSet, double[][] testSet) {
         double distance;
-        int[] closestFoundArray;
+        double[] closestFoundArray;
         double closestDistance;
         int correctRulings = 0;
 
         for (int trainingSetRow = 0; trainingSetRow < trainingSet.length; trainingSetRow++) {
-            closestFoundArray = new int[65];
+            closestFoundArray = new double[65];
             closestDistance = 0;
 
             for (int testSetRow = 0; testSetRow < testSet.length; testSetRow++) {
@@ -29,7 +29,7 @@ class EuclideanDistance {
         return correctRulings;
     }
 
-    private static double euclideanDistanceCalculator(int[][] trainingSet, int[][] testSet, int trainingSetRow, int testSetRow) {
+    private double euclideanDistanceCalculator(double[][] trainingSet, double[][] testSet, int trainingSetRow, int testSetRow) {
         double distance = 0;
         for (int numPointer = 0; numPointer < 64; numPointer++) {
             double difference = trainingSet[trainingSetRow][numPointer] - testSet[testSetRow][numPointer];
