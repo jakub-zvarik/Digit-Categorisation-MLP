@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Data {
 
-    public double[][] sortData(String dataSet) throws FileNotFoundException {
+    public static double[][] sortData(String dataSet) throws FileNotFoundException {
         List<Double> temporary = readInData(dataSet);
         int COLUMNS = 65;
         int ROWS = temporary.size() / COLUMNS;
@@ -23,7 +23,7 @@ public class Data {
         return sortedData;
     }
 
-    private List<Double> readInData(String dataSetName) throws FileNotFoundException {
+    private static List<Double> readInData(String dataSetName) throws FileNotFoundException {
         String path = new File(dataSetName).getAbsolutePath();
         File coordinatesTxtFile = new File(path);
         Scanner scan = new Scanner(coordinatesTxtFile);
