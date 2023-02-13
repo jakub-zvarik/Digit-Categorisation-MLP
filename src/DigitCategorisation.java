@@ -20,7 +20,7 @@ public class DigitCategorisation {
         // Print the result for euclidean distance
         System.out.println(euclideanClassifier.euclideanDistance(trainingSet, testSet));
 
-        NeuralNetwork nn = new NeuralNetwork(64,40,10);
+        NeuralNetwork nn = new NeuralNetwork(64,16,10);
         System.out.println(Arrays.deepToString(nn.feedforward(trainingSet)));
 
         /*// Generate Random Weights
