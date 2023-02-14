@@ -3,23 +3,21 @@ import java.util.Random;
 public class MathsLibrary {
 
     public static double[][] generateRandomWeights(int wantedRows, int wantedColumns) {
-        Random random = new Random();
         double[][] weights = new double[wantedRows][wantedColumns];
 
         for (int rows = 0; rows < wantedRows; rows++) {
             for (int columns = 0; columns < wantedColumns; columns++) {
-                weights[rows][columns] = random.nextGaussian() * 0.01;
+                weights[rows][columns] = Math.random() - 0.5;
             }
         }
         return weights;
     }
 
     public static double[] generateRandomBias(int wantedColumns) {
-        Random random = new Random();
         double[] bias = new double[wantedColumns];
 
         for (int column = 0; column < wantedColumns; column++) {
-            bias[column] = random.nextGaussian() * 0.01;
+            bias[column] = Math.random() - 0.5;
         }
         return bias;
     }
@@ -28,7 +26,7 @@ public class MathsLibrary {
         final int neurons = bias.length;
 
         for(int column = 0; column < neurons; column++) {
-            input[column] = input[column] + bias[column];
+            input[column] +=  bias[column];
         }
     }
 

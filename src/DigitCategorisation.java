@@ -18,19 +18,8 @@ public class DigitCategorisation {
         EuclideanDistance euclideanClassifier = new EuclideanDistance();
 
         // Print the result for euclidean distance
-        NeuralNetwork neural = new NeuralNetwork(65, 94, 0.01, 2000);
+        NeuralNetwork neural = new NeuralNetwork(65, 84, 0.01, 10);
         neural.train(trainingSet);
         neural.test(testSet);
-
-
-        /*// Generate Random Weights
-        double[][] weights = MathsLibrary.generateRandomMatrix(40,64);
-
-        // Calculate dot product
-        double[][] test1 = MathsLibrary.dotProduct(trainingSet[0], weights);
-
-        System.out.println(Arrays.deepToString(test1));
-        System.out.println(test1.length);*/
-
     }
 }
