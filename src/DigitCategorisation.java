@@ -18,7 +18,7 @@ public class DigitCategorisation {
         EuclideanDistance euclideanClassifier = new EuclideanDistance();
 
         // Print the result for euclidean distance
-        NeuralNetwork neural = new NeuralNetwork(65, 84, 0.01, 10);
+        NeuralNetwork neural = new NeuralNetwork(65, 96, 0.02, 100);
         neural.train(trainingSet);
         neural.test(testSet);
     }

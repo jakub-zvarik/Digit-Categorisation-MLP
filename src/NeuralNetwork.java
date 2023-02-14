@@ -26,37 +26,16 @@ public class NeuralNetwork {
 
     }
 
-    private double[] feedforwardHidden(double[] input) {
-        double[] weightedSumHidden = MathsLibrary.weightedSum(input, this.hiddenWeights, this.hiddenNeurons);
-        MathsLibrary.addBias(weightedSumHidden, this.hiddenBias);
-        MathsLibrary.activationFunction(weightedSumHidden);
-
-        return weightedSumHidden;
-    }
-
-    private double[] feedforwardOutput(double[] weightedSumHidden) {
-        double[] weightedSumOutput = MathsLibrary.weightedSum(weightedSumHidden, this.outputWeights, this.outputNeurons);
-        MathsLibrary.addBias(weightedSumOutput, this.outputBias);
-        MathsLibrary.activationFunction(weightedSumOutput);
-
-        return weightedSumOutput;
-    }
-
     private double[] feedforward(double[] input) {
-        double[] weightedSumHidden = MathsLibrary.weightedSum(input, this.hiddenWeights, this.hiddenNeurons);
-        MathsLibrary.addBias(weightedSumHidden, this.hiddenBias);
-        MathsLibrary.activationFunction(weightedSumHidden);
-
-        double[] weightedSumOutput = MathsLibrary.weightedSum(weightedSumHidden, this.outputWeights, this.outputNeurons);
-        MathsLibrary.addBias(weightedSumOutput, this.outputBias);
-        MathsLibrary.activationFunction(weightedSumOutput);
+        double[] weightedSumHidden = MathsLibrary.feedforwardAlgorithm(input, this.hiddenWeights, this.hiddenNeurons, this.hiddenBias);
+        double[] weightedSumOutput = MathsLibrary.feedforwardAlgorithm(weightedSumHidden, this.outputWeights, this.outputNeurons, this.outputBias);
 
         return weightedSumOutput;
     }
 
     private void backpropagation(double[] input, double[] target) {
-        double[] hiddenOutputs = feedforwardHidden(input);
-        double[] outputs = feedforwardOutput(hiddenOutputs);
+        double[] hiddenOutputs = MathsLibrary.feedforwardAlgorithm(input, this.hiddenWeights, this.hiddenNeurons, this.hiddenBias);
+        double[] outputs = MathsLibrary.feedforwardAlgorithm(hiddenOutputs, this.outputWeights, this.outputNeurons, this.outputBias);
         double[] outputsErrors = new double[this.outputNeurons];
         double[] hiddenErrors = new double[this.hiddenNeurons];
 
@@ -82,6 +61,22 @@ public class NeuralNetwork {
             this.hiddenBias[hiddenNeuron] += this.tuningRate * error;
         }
     }
+    public void train(double[][] trainingDataSet) {
+        for (int epoch = 0; epoch < this.epochs; epoch++) {
+            double error = 0.0;
+            for (int input = 0; input < trainingDataSet.length; input++) {
+                double[] outputs = feedforward(trainingDataSet[input]);
+                double[] target = new double[this.outputNeurons];
+                int label = (int) trainingDataSet[input][trainingDataSet[input].length - 1];
+                target[label] = 1.0;
+                for (int neuron = 0; neuron < this.outputNeurons; neuron++) {
+                    error += 0.5 * (target[neuron] - outputs[neuron]) * (target[neuron] - outputs[neuron]);
+                }
+                backpropagation(trainingDataSet[input], target);
+            }
+            System.out.println("Epoch number " + (epoch+1) + " error: " + error);
+        }
+    }
 
     public void test(double[][] testDataSet) {
         int correct = 0;
@@ -101,24 +96,4 @@ public class NeuralNetwork {
         double accuracy = (double) correct / testDataSet.length * 100.0;
         System.out.println("Test accuracy: " + accuracy + "%");
     }
-
-
-    public void train(double[][] trainingDataSet) {
-        for (int epoch = 0; epoch < this.epochs; epoch++) {
-            double error = 0.0;
-            for (int input = 0; input < trainingDataSet.length; input++) {
-                double[] outputs = feedforward(trainingDataSet[input]);
-                double[] target = new double[this.outputNeurons];
-                int label = (int) trainingDataSet[input][trainingDataSet[input].length - 1];
-                target[label] = 1.0;
-                for (int neuron = 0; neuron < this.outputNeurons; neuron++) {
-                    error += 0.5 * (target[neuron] - outputs[neuron]) * (target[neuron] - outputs[neuron]);
-                }
-                backpropagation(trainingDataSet[input], target);
-            }
-            System.out.println("Epoch number " + (epoch+1) + " error: " + error);
-        }
-    }
 }
-
-

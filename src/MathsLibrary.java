@@ -3,21 +3,23 @@ import java.util.Random;
 public class MathsLibrary {
 
     public static double[][] generateRandomWeights(int wantedRows, int wantedColumns) {
+        Random random = new Random();
         double[][] weights = new double[wantedRows][wantedColumns];
 
         for (int rows = 0; rows < wantedRows; rows++) {
             for (int columns = 0; columns < wantedColumns; columns++) {
-                weights[rows][columns] = Math.random() - 0.5;
+                weights[rows][columns] = random.nextGaussian() * 0.01;
             }
         }
         return weights;
     }
 
     public static double[] generateRandomBias(int wantedColumns) {
+        Random random = new Random();
         double[] bias = new double[wantedColumns];
 
         for (int column = 0; column < wantedColumns; column++) {
-            bias[column] = Math.random() - 0.5;
+            bias[column] = random.nextGaussian() * 0.01;
         }
         return bias;
     }
@@ -26,7 +28,7 @@ public class MathsLibrary {
         final int neurons = bias.length;
 
         for(int column = 0; column < neurons; column++) {
-            input[column] +=  bias[column];
+            input[column] = input[column] + bias[column];
         }
     }
 
@@ -53,5 +55,13 @@ public class MathsLibrary {
             weightedSums[neuron] = sum;
         }
         return weightedSums;
+    }
+
+    public static double[] feedforwardAlgorithm(double[] input, double[][] weights, int neurons, double[] bias) {
+        double[] weightedSum = weightedSum(input, weights, neurons);
+        addBias(weightedSum, bias);
+        activationFunction(weightedSum);
+
+        return weightedSum;
     }
 }
