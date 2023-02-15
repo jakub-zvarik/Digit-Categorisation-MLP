@@ -2,19 +2,19 @@ import java.util.Random;
 
 /*
 Maths Library is a "support" class containing all maths for euclidean distance
-and neural network. By this class I was trying to follow DRY (do not repeat yourself)
-but not every part of the neural network is susceptible to follow this rule.
+and neural networks. In this class I was trying to follow DRY (do not repeat yourself)
+but not every part of the neural network is susceptible to following this rule.
 All methods in this class are static so there is no need to initialise this class
 to work with the maths.
 */
 
 public class MathsLibrary {
 
-    // Used in Euclidean Distance class
+    // Methods used in Euclidean Distance class
 
     /*
     Method for euclidean distance calculation
-    Method takes in 4 parameters - training set, test set, training set row and test set row
+    The method takes in 4 parameters - a training set, a test set, a training set row and a test set row
     */
     public static double euclideanDistanceCalculator(double[][] trainingSet, double[][] testSet, int trainingSetRow, int testSetRow) {
         double distance = 0;
@@ -28,12 +28,12 @@ public class MathsLibrary {
         return distance;
     }
 
-    // Used in Neural Network class
+    // Methods used in Neural Network class
 
     /*
     Random weights generator takes in two parameters - wanted rows and wanted columns
-    Method will return 2D array - size is specified by the parameters
-    For every column, it generates gaussian number - this means generated numbers will
+    The method will return 2D array - size is specified by the parameters
+    For every column, it generates a gaussian number - this means generated numbers will
     be "clustered" around 0 but could be also bigger than 1 or -1. By 0.01 multiplication,
     the number will be considerably smaller - making it better for weights and biases
     in the neural network.
@@ -52,8 +52,8 @@ public class MathsLibrary {
 
     /*
     Method for random biases generation
-    Same as the previous method but returning 1D array, which is enough for biases,
-    since only one biases per neutron is needed. Same approach with the gaussian
+    Same as the previous method but returns a 1D array, which is enough for biases,
+    since only one bias per neutron is needed. The same approach with the gaussian
     number is used.
     */
     public static double[] generateRandomBias(int wantedColumns) {
@@ -67,7 +67,7 @@ public class MathsLibrary {
     }
 
     /*
-    addBias takes in 2 arrays and adds numbers in the array to numbers in
+    The addBias method takes in 2 arrays and adds numbers in the array to numbers in
     another array. Only 1 column + 1 column form another array. This method is
     void because it is only used to change the first array.
     */
@@ -80,8 +80,8 @@ public class MathsLibrary {
     }
 
     /*
-    Sigmoid method takes in one double number and returns another double, on which
-    sigmoid function is performed. Sigmoid function makes every input number between
+    The sigmoid method takes in one double number and returns another double, on which
+    the sigmoid function is performed. The sigmoid function makes every input number between
     -1 and 1.
     */
     public static double sigmoid(double x) {
@@ -90,7 +90,7 @@ public class MathsLibrary {
 
     /*
     Method activationFunction takes in 1 parameter - input array and performs
-    sigmoid function on every element in the input array. In neural network,
+    the sigmoid function on every element in the input array. In a neural network,
     this is used as part of the feedforward algorithm to normalise data.
     */
     public static void activationFunction(double[] input) {
@@ -102,16 +102,16 @@ public class MathsLibrary {
     }
 
     /*
-    Method weightedSum takes in 3 parameters - input array, 2D array with weights
-    and number of neurons and returns 1 double array. Parameter neurons is used
-    to define number of columns in the returning array. This method is performing
+    Method weightedSum takes in 3 parameters - input array, a 2D array with weights
+    and the number of neurons and returns 1 double array. Parameter neurons are used
+    to define the number of columns in the returning array. This method is performing
     dot product on input array and weights array - meaning calculating all weights
-    pointing to a neuron. Returned array is array of these weighted sums with the
-    length corresponding to number of neurons in the layer following input.
+    pointing to a neuron. The returned array is the array of these weighted sums with the
+    length corresponding to the number of neurons in the layer following input.
     */
     public static double[] weightedSum(double[] input, double[][] weights, int neurons) {
         double[] weightedSums = new double[neurons];
-
+        // Calculation of weighted sums for every neuron in the next layer
         for (int neuron = 0; neuron < weightedSums.length; neuron++) {
             double sum = 0;
             for (int inputPointer = 0; inputPointer < input.length; inputPointer++) {
@@ -124,9 +124,9 @@ public class MathsLibrary {
 
     /*
     Method feedforwardAlgorithm takes in 4 parameters - input array, weights (2D array),
-    number of neurons and array of biases and return array of doubles. It is an algorithm
-    needed for feedforward process in neural networks. It performs weightedSums, adds biases
-    on the weighted sums and perform activation function for every element in the array.
+    number of neurons and an array of biases and return array of doubles. It is an algorithm
+    needed for the feedforward process in neural networks. It calculates weighted sums, adds biases
+    on the weighted sums and performs an activation function for every element in the array.
     (for reference of these methods, see previous methods)
     */
     public static double[] feedforwardAlgorithm(double[] input, double[][] weights, int neurons, double[] bias) {
