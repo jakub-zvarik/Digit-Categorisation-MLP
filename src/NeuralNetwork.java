@@ -23,7 +23,6 @@ public class NeuralNetwork {
         // Initialise and generate random biases
         this.hiddenBias = MathsLibrary.generateRandomBias(hiddenNeurons);
         this.outputBias = MathsLibrary.generateRandomBias(outputNeurons);
-
     }
 
     private double[] feedforward(double[] input) {
@@ -39,15 +38,19 @@ public class NeuralNetwork {
         double[] outputsErrors = new double[this.outputNeurons];
         double[] hiddenErrors = new double[this.hiddenNeurons];
 
+        // output error calculation
         for (int outputNeuron = 0; outputNeuron < this.outputNeurons; outputNeuron++) {
-            double error = outputs[outputNeuron] * (1- outputs[outputNeuron]) * (target[outputNeuron] - outputs[outputNeuron]);
+            double error = outputs[outputNeuron] * (1 - outputs[outputNeuron]) * (target[outputNeuron] - outputs[outputNeuron]);
             outputsErrors[outputNeuron] = error;
             for (int column = 0; column < this.hiddenNeurons; column++) {
+                // update weights pointing to output layer
                 this.outputWeights[column][outputNeuron] += this.tuningRate * error * hiddenOutputs[column];
             }
+            // update output bias
             this.outputBias[outputNeuron] += tuningRate * error;
         }
 
+        // hidden error calculation
         for (int hiddenNeuron = 0; hiddenNeuron < this.hiddenNeurons; hiddenNeuron++) {
             double error = 0;
             for (int outputNeuron = 0; outputNeuron < this.outputNeurons; outputNeuron++) {
@@ -56,8 +59,10 @@ public class NeuralNetwork {
             error *= hiddenOutputs[hiddenNeuron] * (1 - hiddenOutputs[hiddenNeuron]);
             hiddenErrors[hiddenNeuron] = error;
             for (int numOfInputs = 0; numOfInputs < this.inputs; numOfInputs++) {
+                // update weights pointing to hidden layer
                 this.hiddenWeights[numOfInputs][hiddenNeuron] += this.tuningRate * error * input[numOfInputs];
             }
+            // update hidden bias
             this.hiddenBias[hiddenNeuron] += this.tuningRate * error;
         }
     }

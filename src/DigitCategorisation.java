@@ -34,7 +34,7 @@ public class DigitCategorisation {
         Class takes 4 parameters - number of inputs (including label), number of neurons in hidden layer,
         learning rate and number of epochs (number of training cycles performed on the whole dataset)
         */
-        NeuralNetwork neural = new NeuralNetwork(65, 46, 0.02, 100);
+        NeuralNetwork neural = new NeuralNetwork(65, 46, 0.01, 100);
         // Method initialising the training - takes in training dataset
         neural.train(trainingSet);
         // Method performing accuracy test on the neural network - takes in test dataset
