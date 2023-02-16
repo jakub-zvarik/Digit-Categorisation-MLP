@@ -7,6 +7,7 @@ class EuclideanDistance {
     Method euclideanDistance takes in two parameters - the first fold and the second fold of
     the dataset. It calls the euclideanDistanceCalculator method from the MathsLibrary
     to perform the calculation of the euclidean distance between chosen vectors from both datasets.
+    The closest vectors are most probably representing the same number.
     */
     public void euclideanDistance(double[][] firstFold, double[][] secondFold) {
         double distance;
@@ -34,6 +35,7 @@ class EuclideanDistance {
         }
         // Accuracy calculation
         double accuracy = (double) correctRulings / firstFold.length * 100.0;
-        System.out.println("Number of correct rulings: " + correctRulings + " accuracy: " + accuracy);
+        System.out.println("Euclidean Distance Results:");
+        System.out.println("Number of correct rulings: " + correctRulings + " accuracy: " + accuracy + "%");
     }
 }

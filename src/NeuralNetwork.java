@@ -17,11 +17,9 @@ public class NeuralNetwork {
     double[] outputBias;
 
     /*
-    Constructor method - takes in 4 parameters - number of inputs to the neural network,
-    number of neurons in the hidden layer, learning rate and number of epochs (training cycles).
-    These parameters are then assigned to class variables and used all across this class.
-    Also initialises weights to both, hidden and output layers, and biases for hidden and the
-    output layer.
+    Constructor method - takes in 4 parameters These parameters are then assigned to class variables
+    and used all across this class. Also initialises weights to both, hidden and output layers,
+    and biases for hidden and the output layer.
     */
     public NeuralNetwork(int numberOfInputs, int numberOfHiddenNeurons, double learningRate, int numberOfEpochs) {
         // Initialise all variables
@@ -38,52 +36,68 @@ public class NeuralNetwork {
         this.outputBias = MathsLibrary.generateRandomBias(outputNeurons);
     }
 
+    // Feedforward algorithms
+
     /*
-    Method feedforward takes in one parameter - input (row from the dataset) and feeds
-    data in the forward direction in the neural network (from the input layer to the output layer).
-    The calculation has the same process for every layer, therefore the actual calculation
-    algorithm for one layer is part of my MathsLibrary which is written and reused multiple
-    times within this class. Calculates weighted sums, adds biases and performs activation function.
-    For more details see my MathsLibrary.
+    Method feedforwardAlgorithm takes in 4 parameters. It is an algorithm needed for the complete
+    feedforward process in neural networks. It calculates weighted sums, adds biases on the weighted
+    sums and performs an activation function for every element in the array.
+    (for reference of these methods, see MathsLibrary)
+    */
+    public static double[] feedforwardAlgorithm(double[] input, double[][] weights, int neurons, double[] bias) {
+        double[] weightedSum = MathsLibrary.weightedSum(input, weights, neurons);
+        MathsLibrary.addBias(weightedSum, bias);
+        MathsLibrary.activationFunction(weightedSum);
+
+        return weightedSum;
+    }
+
+    /*
+    Method feedforward takes in one parameter. It feeds data in the forward direction in the
+    neural network (from the input layer to the output layer), performing all necessary calculation.
+    For more details, see feedforwardAlgorithm above.
     */
     private double[] feedforward(double[] input) {
         // Feedforward process from input to the hidden layer
-        double[] weightedSumHidden = MathsLibrary.feedforwardAlgorithm(input, this.hiddenWeights, this.hiddenNeurons, this.hiddenBias);
+        double[] weightedSumHidden = feedforwardAlgorithm(input, this.hiddenWeights, this.hiddenNeurons, this.hiddenBias);
         // Feedforward process from hidden to the output layer
-        double[] weightedSumOutput = MathsLibrary.feedforwardAlgorithm(weightedSumHidden, this.outputWeights, this.outputNeurons, this.outputBias);
+        double[] weightedSumOutput = feedforwardAlgorithm(weightedSumHidden, this.outputWeights, this.outputNeurons, this.outputBias);
 
         return weightedSumOutput;
     }
 
+    // Backpropagation algorithms
+
     /*
-    Method backpropagation takes in 2 arrays of doubles as parameters - input and targets.
-    Input is the training dataset for the neural network and the target is an array containing all
-    possible targets. During training, these targets are all set to 0 only the element sitting on
-    the index corresponding with the target value (wanted result) is set to 1.0. With this,
-    the neural network knows how to manipulate weights and biases to get better results.
-    This is how the neural network learns. To manipulate weights and biases correctly,
-    gradient descent is used. It is void because it does not need to return anything,
-    just calculates errors and updates weights and biases.
+    Method backpropagationOutputHidden takes in 3 parameters and returns an array of doubles.
+    This method calculates errors made between the output and hidden layers and is based on
+    the result, it changes the values of the weights and biases between the hidden and output layer.
     */
-    private void backpropagation(double[] input, double[] target) {
-        // Feedforward process performed for hidden and output layer separately (this is needed for gradient descent)
-        double[] hiddenOutputs = MathsLibrary.feedforwardAlgorithm(input, this.hiddenWeights, this.hiddenNeurons, this.hiddenBias);
-        double[] outputs = MathsLibrary.feedforwardAlgorithm(hiddenOutputs, this.outputWeights, this.outputNeurons, this.outputBias);
-        double[] outputsErrors = new double[this.outputNeurons];
-        double[] hiddenErrors = new double[this.hiddenNeurons];
+    private double[] backpropagationOutputHidden(double[] hiddenOutputs, double[] outputs, double[] target) {
+        double[] errorsInOutput = new double[this.outputNeurons];
 
         // Calculation of the error between hidden and output layer
         for (int outputNeuron = 0; outputNeuron < this.outputNeurons; outputNeuron++) {
             double error = outputs[outputNeuron] * (1 - outputs[outputNeuron]) * (target[outputNeuron] - outputs[outputNeuron]);
-            outputsErrors[outputNeuron] = error;
+            errorsInOutput[outputNeuron] = error;
             for (int column = 0; column < this.hiddenNeurons; column++) {
-                // Update weights pointing to output layer
+                // Update the weights pointing to output layer
                 this.outputWeights[column][outputNeuron] += this.tuningRate * error * hiddenOutputs[column];
             }
-            // Update output bias
+            // Update the output bias
             this.outputBias[outputNeuron] += tuningRate * error;
         }
+        return errorsInOutput;
+    }
 
+    /*
+    Method backpropagationHiddenInput takes in 3 parameters and is void.
+    This method calculates errors made between the hidden and input layers and
+    changes the values based on the result. This is the last step of
+    backpropagation.
+    */
+    private void backpropagationHiddenInput(double[] outputsErrors, double[] hiddenOutputs, double[] input)  {
+        double[] hiddenErrors = new double[this.hiddenNeurons];
         // Calculation of the error between input and hidden layer
         for (int hiddenNeuron = 0; hiddenNeuron < this.hiddenNeurons; hiddenNeuron++) {
             double error = 0;
@@ -93,12 +107,28 @@ public class NeuralNetwork {
             error *= hiddenOutputs[hiddenNeuron] * (1 - hiddenOutputs[hiddenNeuron]);
             hiddenErrors[hiddenNeuron] = error;
             for (int numOfInputs = 0; numOfInputs < this.inputs; numOfInputs++) {
-                // Update weights pointing to hidden layer
+                // Update the weights pointing to hidden layer
                 this.hiddenWeights[numOfInputs][hiddenNeuron] += this.tuningRate * error * input[numOfInputs];
             }
-            // Update hidden bias
+            // Update the hidden bias
             this.hiddenBias[hiddenNeuron] += this.tuningRate * error;
         }
+    }
+
+    /*
+    Method backpropagation takes in 2 arrays of doubles as parameters.
+    Input is the training dataset for the neural network and the target is an array containing all
+    possible targets. It uses the above backpropagation algorithms to complete the backpropagation
+    process. This is how the neural network learns.
+    */
+    private void backpropagation(double[] input, double[] target) {
+        // Feedforward process performed for hidden and output layers separately (this is needed for gradient descent)
+        double[] hiddenOutputs = feedforwardAlgorithm(input, this.hiddenWeights, this.hiddenNeurons, this.hiddenBias);
+        double[] outputs = feedforwardAlgorithm(hiddenOutputs, this.outputWeights, this.outputNeurons, this.outputBias);
+        // Calculation of errors in the output layer and updating output layer weights and biases
+        double[] outputsErrors = backpropagationOutputHidden(hiddenOutputs, outputs, target);
+        // Calculation of errors in the hidden layer and updating hidden layer weights and biases
+        backpropagationHiddenInput(outputsErrors, hiddenOutputs, input);
     }
 
     /*
@@ -107,6 +137,7 @@ public class NeuralNetwork {
     learn.
     */
     public void train(double[][] trainingDataSet) {
+        System.out.println("Neural Network - Training: ");
         // Epochs - numbers of training cycles
         for (int epoch = 0; epoch < this.epochs; epoch++) {
             double error = 0.0;
@@ -126,7 +157,7 @@ public class NeuralNetwork {
                 }
                 backpropagation(trainingDataSet[row], target);
             }
-            System.out.println("Number of epochs:" + (epoch+1) + " error: " + error);
+            System.out.println("Number of epochs:" + (epoch+1) + " Calculated error: " + error);
         }
     }
 
@@ -157,6 +188,7 @@ public class NeuralNetwork {
         }
         // Accuracy calculation
         double accuracy = (double) correct / testDataSet.length * 100.0;
+        System.out.println("Neural Network - Test results: ");
         System.out.println("Test accuracy: " + accuracy + "%");
     }
 }

@@ -74,7 +74,7 @@ public class MathsLibrary {
     public static void addBias(double[] input, double[] bias) {
         final int neurons = bias.length;
 
-        for(int column = 0; column < neurons; column++) {
+        for (int column = 0; column < neurons; column++) {
             input[column] = input[column] + bias[column];
         }
     }
@@ -102,8 +102,7 @@ public class MathsLibrary {
     }
 
     /*
-    Method weightedSum takes in 3 parameters - input array, a 2D array with weights
-    and the number of neurons and returns 1 double array. Parameter neurons are used
+    Method weightedSum takes in 3 parameters and return array of doubles. Parameter neurons are used
     to define the number of columns in the returning array. This method is performing
     dot product on input array and weights array - meaning calculating all weights
     pointing to a neuron. The returned array is the array of these weighted sums with the
@@ -120,20 +119,5 @@ public class MathsLibrary {
             weightedSums[neuron] = sum;
         }
         return weightedSums;
-    }
-
-    /*
-    Method feedforwardAlgorithm takes in 4 parameters - input array, weights (2D array),
-    number of neurons and an array of biases and return array of doubles. It is an algorithm
-    needed for the feedforward process in neural networks. It calculates weighted sums, adds biases
-    on the weighted sums and performs an activation function for every element in the array.
-    (for reference of these methods, see previous methods)
-    */
-    public static double[] feedforwardAlgorithm(double[] input, double[][] weights, int neurons, double[] bias) {
-        double[] weightedSum = weightedSum(input, weights, neurons);
-        addBias(weightedSum, bias);
-        activationFunction(weightedSum);
-
-        return weightedSum;
     }
 }

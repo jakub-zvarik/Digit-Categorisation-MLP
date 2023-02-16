@@ -27,13 +27,10 @@ public class DigitCategorisation {
         // Categorisation by euclidean distance
         EuclideanDistance euclidean = new EuclideanDistance();
         // Method for calculation takes in 2 parameters - training and test set
-        euclidean.euclideanDistance(firstFold, secondFold);
+        euclidean.euclideanDistance(secondFold, firstFold);
 
-        /*
-        Categorisation by neural network
-        The class takes 4 parameters - the number of inputs (including the label), the number of neurons in the hidden layer,
-        learning rate and number of epochs (number of training cycles performed on the whole dataset)
-        */
+
+        // Categorisation by neural network
         NeuralNetwork neural = new NeuralNetwork(65, 86, 0.01, 800);
         // Initialising the training - takes in training dataset
         neural.train(firstFold);
