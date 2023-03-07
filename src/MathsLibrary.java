@@ -113,7 +113,7 @@ public class MathsLibrary {
         // Calculation of weighted sums for every neuron in the next layer
         for (int neuron = 0; neuron < weightedSums.length; neuron++) {
             double sum = 0;
-            for (int inputPointer = 0; inputPointer < input.length; inputPointer++) {
+            for (int inputPointer = 0; inputPointer < input.length -1; inputPointer++) {
                 sum += input[inputPointer] * weights[inputPointer][neuron];
             }
             weightedSums[neuron] = sum;

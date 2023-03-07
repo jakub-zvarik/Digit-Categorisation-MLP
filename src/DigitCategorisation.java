@@ -26,12 +26,12 @@ public class DigitCategorisation {
 
         // Categorisation by euclidean distance
         EuclideanDistance euclidean = new EuclideanDistance();
-        // Method for calculation takes in 2 parameters - training and test set
-        euclidean.euclideanDistance(secondFold, firstFold);
+        // Method for calculation takes in 2 parameters - first and second fold to compare them
+        euclidean.euclideanDistance(firstFold, secondFold);
 
 
         // Categorisation by neural network
-        NeuralNetwork neural = new NeuralNetwork(65, 86, 0.01, 800);
+        NeuralNetwork neural = new NeuralNetwork(64, 96, 0.01, 100);
         // Initialising the training - takes in training dataset
         neural.train(firstFold);
         // Testing the network with the second fold of the dataset
