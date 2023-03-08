@@ -3,7 +3,7 @@ These digits are represented by 64 number values (8x8 pixels images).
 The first step is to read the data provided in the .txt format. With the structure of the dataset in mind, 
 the approach chosen was to sort the datasets into 2D arrays of 2810 rows (there are 2810 in one dataset) and 65 columns 
 (64 columns represent coordinates in the 8x8 image and the 65th column is the label of the data, 
-aka number the previous 64 columns are representing).
+aka number represented in the image).
 
 <h2> How to use the system </h2>
 
