@@ -5,6 +5,8 @@ the approach chosen was to sort the datasets into 2D arrays of 2810 rows (there 
 (64 columns represent coordinates in the 8x8 image and the 65th column is the label of the data, 
 aka number the previous 64 columns are representing).
 
+<h2> How to use the system </h2>
+
 In the main class (Digit Categorisation), data are already loaded and labelled as firstFold and secondFold. 
 There is a Euclidean distance class initialised and euclidean distance method to perform the calculation.
 For the neural network, there is a neural network class initialised with some customisable parameters like 
