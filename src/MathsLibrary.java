@@ -64,6 +64,27 @@ public class MathsLibrary {
     }
 
     /*
+    Method weightedSum takes in 3 parameters and return array of doubles. Parameter neurons are used
+    to define the number of columns in the returning array. This method is performing
+    dot product on input array and weights array - meaning calculating all weights
+    pointing to a neuron. The returned array is the array of these weighted sums with the
+    length corresponding to the number of neurons in the layer following input.
+    */
+    public static double[] weightedSum(double[] input, double[][] weights, int neurons) {
+        double[] weightedSums = new double[neurons];
+        // Calculation of weighted sums for every neuron in the next layer
+        for (int neuron = 0; neuron < weightedSums.length; neuron++) {
+            double sum = 0;
+            for (int inputPointer = 0; inputPointer < input.length -1; inputPointer++) {
+                sum += input[inputPointer] * weights[inputPointer][neuron];
+            }
+            weightedSums[neuron] = sum;
+        }
+        return weightedSums;
+    }
+
+
+    /*
     The addBias method takes in 2 arrays and adds numbers in the array to numbers in
     another array. Only 1 column + 1 column form another array. This method is
     void because it is only used to change the first array.
@@ -96,25 +117,5 @@ public class MathsLibrary {
         for (int column = 0; column < neurons; column++) {
             input[column] = sigmoid(input[column]);
         }
-    }
-
-    /*
-    Method weightedSum takes in 3 parameters and return array of doubles. Parameter neurons are used
-    to define the number of columns in the returning array. This method is performing
-    dot product on input array and weights array - meaning calculating all weights
-    pointing to a neuron. The returned array is the array of these weighted sums with the
-    length corresponding to the number of neurons in the layer following input.
-    */
-    public static double[] weightedSum(double[] input, double[][] weights, int neurons) {
-        double[] weightedSums = new double[neurons];
-        // Calculation of weighted sums for every neuron in the next layer
-        for (int neuron = 0; neuron < weightedSums.length; neuron++) {
-            double sum = 0;
-            for (int inputPointer = 0; inputPointer < input.length -1; inputPointer++) {
-                sum += input[inputPointer] * weights[inputPointer][neuron];
-            }
-            weightedSums[neuron] = sum;
-        }
-        return weightedSums;
     }
 }

@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 Code written by Jakub Zvarik
 
 This program categorises UCI digits provided as a dataset with 65 values per number. 64
-values representing one handwritten number in an 8x8 image, 65th value is a label (represented number).
+values representing one handwritten number in 8x8 image, 65th value is a label (represented number).
 There are 10 numbers represented in the dataset (0-9). The dataset has 5620 numbers in it.
 This program uses euclidean distance and neural network (MLP) to categorise the numbers.
 The dataset was folded into 2 datasets - for training and testing.

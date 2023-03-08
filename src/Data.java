@@ -22,7 +22,7 @@ public class Data {
         int INDEX = 0;
         // Loops which iterate through all rows and their columns in the 2D array.
         for (int linePointer = 0; linePointer < sortedData.length; linePointer++) {
-            for (int numberPointer = 0; numberPointer < 65; numberPointer++){
+            for (int numberPointer = 0; numberPointer < COLUMNS; numberPointer++){
                 // Adding the number into array
                 sortedData[linePointer][numberPointer] = temporary.get(INDEX);
                 // Index increased

@@ -13,6 +13,7 @@ class EuclideanDistance {
         double distance;
         double[] closestFoundArray;
         double closestDistance;
+        final int labelIndex = 64;
         int correctRulings = 0;
         // Loop to point to the row in first fold of the dataset
         for (int firstFoldRow = 0; firstFoldRow < firstFold.length; firstFoldRow++) {
@@ -28,8 +29,8 @@ class EuclideanDistance {
                     closestFoundArray = secondFold[secondFoldRow];
                 }
             }
-            // Increase correct rulings if the classification is correct (64th index is the number's label)
-            if (firstFold[firstFoldRow][64] == closestFoundArray[64]) {
+            // Increase correct rulings if the classification is correct
+            if (firstFold[firstFoldRow][labelIndex] == closestFoundArray[labelIndex]) {
                 correctRulings += 1;
             }
         }
