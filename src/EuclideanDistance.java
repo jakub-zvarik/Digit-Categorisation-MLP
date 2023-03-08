@@ -22,7 +22,7 @@ class EuclideanDistance {
             // Loop to point to the row in the second fold of the dataset
             for (int secondFoldRow = 0; secondFoldRow < secondFold.length; secondFoldRow++) {
                 // Perform euclidean distance calculation
-                distance = MathsLibrary.euclideanDistanceCalculator(firstFold, secondFold, firstFoldRow, secondFoldRow);
+                distance = MathsLibrary.euclideanDistanceCalculator(firstFold[firstFoldRow], secondFold[secondFoldRow]);
                 // Update the closest distance if the newly found distance is smaller than the previous one
                 if (closestDistance == 0 || distance < closestDistance) {
                     closestDistance = distance;

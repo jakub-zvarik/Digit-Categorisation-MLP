@@ -11,12 +11,13 @@ public class MathsLibrary {
 
     /*
     Method for euclidean distance calculation
-    The method takes in 4 parameters - a training set, a test set, a training set row and a test set row
+    The method takes in 2 parameters - coordinates of 2 numbers from the first and second
+    fold and performs the calculation of Euclidean distance between these two points.
     */
-    public static double euclideanDistanceCalculator(double[][] trainingSet, double[][] testSet, int trainingSetRow, int testSetRow) {
+    public static double euclideanDistanceCalculator(double[] firstFold, double[] secondFold) {
         double distance = 0;
         for (int numPointer = 0; numPointer < 64; numPointer++) {
-            double difference = trainingSet[trainingSetRow][numPointer] - testSet[testSetRow][numPointer];
+            double difference = firstFold[numPointer] - secondFold[numPointer];
             distance += difference * difference;
 
         }
