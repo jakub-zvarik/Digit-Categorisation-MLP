@@ -1,11 +1,8 @@
 import java.util.Random;
 
 /*
-Maths Library is a "support" class containing all maths for euclidean distance
-and neural networks. In this class I was trying to follow DRY (do not repeat yourself)
-but not every part of the neural network is susceptible to following this rule.
-All methods in this class are static so there is no need to initialise this class
-to work with the maths.
+Maths Library is a "support" class containing all maths used in euclidean distance
+and neural networks classes.
 */
 
 public class MathsLibrary {
@@ -23,7 +20,7 @@ public class MathsLibrary {
             distance += difference * difference;
 
         }
-        distance = (int) Math.sqrt(distance);
+        distance = Math.sqrt(distance);
 
         return distance;
     }

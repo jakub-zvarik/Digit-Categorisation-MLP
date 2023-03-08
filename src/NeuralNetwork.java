@@ -6,15 +6,15 @@ feedforward process, backpropagation, and training and testing methods are creat
 
 public class NeuralNetwork {
     // Class variables
-    final int inputs;
-    final int hiddenNeurons;
-    final int outputNeurons;
-    final double tuningRate;
-    final int epochs;
-    double[][] hiddenWeights;
-    double[] hiddenBias;
-    double[][] outputWeights;
-    double[] outputBias;
+    private final int inputs;
+    private final int hiddenNeurons;
+    private final int outputNeurons=10;
+    private final double learningRate;
+    private final int epochs;
+    private final double[][] hiddenWeights;
+    private final double[] hiddenBias;
+    private final double[][] outputWeights;
+    private final double[] outputBias;
 
     /*
     Constructor method - takes in 4 parameters These parameters are then assigned to class variables
@@ -25,8 +25,7 @@ public class NeuralNetwork {
         // Initialise all variables
         this.inputs = numberOfInputs;
         this.hiddenNeurons = numberOfHiddenNeurons;
-        this.outputNeurons = 10;
-        this.tuningRate = learningRate;
+        this.learningRate = learningRate;
         this.epochs = numberOfEpochs;
         // Initialise and generate random weights
         this.hiddenWeights = MathsLibrary.generateRandomWeights(inputs, hiddenNeurons);
@@ -60,10 +59,8 @@ public class NeuralNetwork {
     private double[] feedforward(double[] input) {
         // Feedforward process from input to the hidden layer
         double[] weightedSumHidden = feedforwardAlgorithm(input, this.hiddenWeights, this.hiddenNeurons, this.hiddenBias);
-        // Feedforward process from hidden to the output layer
-        double[] weightedSumOutput = feedforwardAlgorithm(weightedSumHidden, this.outputWeights, this.outputNeurons, this.outputBias);
-
-        return weightedSumOutput;
+        // Return result of feedforward process from hidden to the output layer
+        return feedforwardAlgorithm(weightedSumHidden, this.outputWeights, this.outputNeurons, this.outputBias);
     }
 
     // Backpropagation algorithms
@@ -75,17 +72,16 @@ public class NeuralNetwork {
     */
     private double[] backpropagationOutputHidden(double[] hiddenOutputs, double[] outputs, double[] target) {
         double[] errorsInOutput = new double[this.outputNeurons];
-
         // Calculation of the error between hidden and output layer
         for (int outputNeuron = 0; outputNeuron < this.outputNeurons; outputNeuron++) {
             double error = outputs[outputNeuron] * (1 - outputs[outputNeuron]) * (target[outputNeuron] - outputs[outputNeuron]);
             errorsInOutput[outputNeuron] = error;
             for (int column = 0; column < this.hiddenNeurons; column++) {
                 // Update the weights pointing to output layer
-                this.outputWeights[column][outputNeuron] += this.tuningRate * error * hiddenOutputs[column];
+                this.outputWeights[column][outputNeuron] += this.learningRate * error * hiddenOutputs[column];
             }
             // Update the output bias
-            this.outputBias[outputNeuron] += tuningRate * error;
+            this.outputBias[outputNeuron] += this.learningRate * error;
         }
         return errorsInOutput;
     }
@@ -97,7 +93,6 @@ public class NeuralNetwork {
     backpropagation.
     */
     private void backpropagationHiddenInput(double[] outputsErrors, double[] hiddenOutputs, double[] input)  {
-        double[] hiddenErrors = new double[this.hiddenNeurons];
         // Calculation of the error between input and hidden layer
         for (int hiddenNeuron = 0; hiddenNeuron < this.hiddenNeurons; hiddenNeuron++) {
             double error = 0;
@@ -105,13 +100,12 @@ public class NeuralNetwork {
                 error += outputsErrors[outputNeuron] * this.outputWeights[hiddenNeuron][outputNeuron];
             }
             error *= hiddenOutputs[hiddenNeuron] * (1 - hiddenOutputs[hiddenNeuron]);
-            hiddenErrors[hiddenNeuron] = error;
             for (int numOfInputs = 0; numOfInputs < this.inputs; numOfInputs++) {
                 // Update the weights pointing to hidden layer
-                this.hiddenWeights[numOfInputs][hiddenNeuron] += this.tuningRate * error * input[numOfInputs];
+                this.hiddenWeights[numOfInputs][hiddenNeuron] += this.learningRate * error * input[numOfInputs];
             }
             // Update the hidden bias
-            this.hiddenBias[hiddenNeuron] += this.tuningRate * error;
+            this.hiddenBias[hiddenNeuron] += this.learningRate * error;
         }
     }
 
