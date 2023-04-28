@@ -8,7 +8,7 @@ and 65 columns (64 columns represent coordinates in the 8x8 image and the 65th c
 <h2> How to use the system </h2>
 
 In the main class (Digit Categorisation), data are already loaded and labelled as firstFold and secondFold. 
-There is a Euclidean distance class initialised and euclidean distance method to perform the calculation. 
+There is an Euclidean distance class initialised and euclidean distance method to perform the calculation. 
 For the neural network, there is a neural network class initialised with some customisable parameters like the number of neurons in the hidden layer, 
 the learning rate, and the number of epochs. The train method trains the neural network on the inserted data and the test method performs 
 the test of the neural network on the inserted data. There are 5 classes – DigitCategorsiation (main class), 
